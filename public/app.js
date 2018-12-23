@@ -2,8 +2,8 @@ $.getJSON("/articles", function(data) {
     getArticles(data);
 });
 
-$(document).on("click", ".list-group-item", function() {
-    // alert("clicked!");
+$(document).on("click", ".list-group-item.list-group-item-action", function() {
+    alert("clicked!");
 
     $(".modal").append(`
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -26,6 +26,8 @@ $(document).on("click", ".list-group-item", function() {
             </div>
         </div>
     `)
+
+    // $(".modal").show();
 });
 
 $(document).on("click", ".scrape-news", function(event) {
@@ -120,7 +122,6 @@ var getArticles = (data) => {
                     <h5 class="mb-1">${data[i].title}</h5>
                 </div>
                 <p class="mb-1">${data[i].summary}</p>
-                <small>${data[i].time}</small><br>
                 ${save_btn}
             </div>
         `)
