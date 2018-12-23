@@ -8,7 +8,7 @@ $.getJSON("/articles", function(data) {
                 </div>
                 <p class="mb-1">${data[i].summary}</p>
                 <small>${data[i].time}</small><br>
-                <button type="button" class="btn btn-warning save-article">Save Article</button>
+                <button type="button" class="btn btn-warning save-btn" data-id=${data[i]._id}>Save Article</button>
             </div>
         `)
     };
@@ -63,5 +63,34 @@ $(document).on("click", ".clear-news", function(event) {
         type: "delete"
     }).then(function(result) {
         location.reload();
+    });
+});
+
+$(document).on("click", ".saved-news", function(event) {
+    event.preventDefault();
+
+    alert("Yoyoyo!");
+
+    $.ajax({
+        url: "/articles/saved",
+        type: "get"
+    }).then(function(result) {
+        console.log(result);
+    });
+});
+
+$(document).on("click", ".save-btn", function(event) {
+    event.preventDefault();
+
+    alert("yoyoyoyo!");
+
+    var id = $(".save-btn").data("id");
+    console.log(id);
+
+    $.ajax({
+        url: "/articles/" + id,
+        type: "put"
+    }).then(function(result) {
+        console.log(result);
     });
 });

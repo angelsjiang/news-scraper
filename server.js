@@ -49,6 +49,8 @@ app.get("/scrape", function(req, res) {
     });
 });
 
+
+// articles 
 app.get("/articles", function(req, res) {
     db.Article.find({}).then(function(result) {
         res.json(result);
@@ -65,8 +67,27 @@ app.delete("/articles/clear", function(req, res) {
     .catch(function(err) {
         res.json(err);
     });
-})
+});
 
+app.get("/articles/saved", function(req, res) {
+    db.Article.find({saved: true}).then(function(result) {
+        res.json(result);
+    })
+    .catch(function(err) {
+        res.json(err);
+    });
+});
+
+app.put("/articles/:id", function(req, res) {
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: true }, { multi: true })
+        .then(function(result) {
+            res.json(result);
+        });
+});
+
+
+
+// listening
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
 });
