@@ -2,13 +2,36 @@ $.getJSON("/articles", function(data) {
     getArticles(data);
 });
 
-$(document).on("click", ".list-group-item.list-group-item-action", function() {
-    let articleId = $(".list-group-item.list-group-item-action").data("artid");
+$(document).on("click", ".list-group-item.list-group-item-action", function(event) {
+    event.preventDefault();
+
+    let articleId = $(this).data("artid");
     console.log(articleId);
-    $(".save-comment").attr("data-artId", articleId);
+    $(".save-comment").attr("data-artid", articleId);
 
     let title = "Notes for this article: " + $(this).data("title");
     $(".modal-title").text(title);
+
+    $.ajax({
+        url: "/articles/comment/" + articleId,
+        type: "get"
+    }).then(function(data) {
+
+        $(".form-group").empty();
+
+        $(".form-group").append(`
+            <label>Title</label>
+            <input class="form-control" id="comment-title" type="text" placeholder="enter title">                    <br>
+            <label for="exampleFormControlTextarea1">Comments</label>
+            <textarea class="form-control" id="comment-body" rows="3"></textarea>
+        `)
+
+        if(data.comment) {
+            $("#comment-title").val(data.comment.title);
+            $("#comment-body").val(data.comment.body);
+        }
+        
+    });
 
 });
 
@@ -79,6 +102,8 @@ $(document).on("click", ".home-btn", function() {
 
 $(document).on("click", ".save-comment", function() {
     alert("save comment!");
+    $("#comment-title").empty();
+    $("#comment-body").empty();
 
     var thisId = $(".save-comment").data("artid");
     // console.log(thisId);
@@ -118,12 +143,13 @@ var getArticles = (data) => {
 
         $(".list-group").append(`
             <div class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="modal" 
-            data-target="#exampleModalCenter" data-title="${data[i].title}" data-artId="${data[i]._id}">
+            data-target="#exampleModalCenter" data-title="${data[i].title}" data-artid="${data[i]._id}">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">${data[i].title}</h5>
                 </div>
                 <p class="mb-1">${data[i].summary}</p>
                 ${save_btn}
+                <a href="${data[i].link}" ><button type="button" class="btn btn-secondary">Link to Article</button></a>
             </div>
         `)
     };
