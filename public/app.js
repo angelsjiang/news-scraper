@@ -64,20 +64,7 @@ $(document).on("click", ".saved-news", function(event) {
         type: "get"
     }).then(function(data) {
 
-        $(".list-group").empty();
-
-        for (var i = 0; i < data.length; i++) {
-            $(".list-group").append(`
-                <div class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">${data[i].title}</h5>
-                    </div>
-                    <p class="mb-1">${data[i].summary}</p>
-                    <small>${data[i].time}</small><br>
-                    <button type="button" class="btn btn-warning save-btn" data-article=${data[i]._id}>Save Article</button>
-                </div>
-            `)
-        };
+        getArticles(data);
     });
 });
 
@@ -95,6 +82,8 @@ $(document).on("click", ".save-btn", function(event) {
     }).then(function(result) {
         console.log(result);
     });
+
+    $(this).attr("disabled", true);
 });
 
 
@@ -112,6 +101,19 @@ var getArticles = (data) => {
 
     console.log(data);
     for (var i = 0; i < data.length; i++) {
+
+        let saved = data[i].saved;
+        console.log(saved);
+
+        let save_btn;
+
+        if(saved) {
+            save_btn = `<button type="button" class="btn btn-warning save-btn" data-article=${data[i]._id} disabled>Save Article</button>`
+        }
+        else {
+            save_btn = `<button type="button" class="btn btn-warning save-btn" data-article=${data[i]._id}>Save Article</button>`
+        }
+
         $(".list-group").append(`
             <div class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
@@ -119,7 +121,7 @@ var getArticles = (data) => {
                 </div>
                 <p class="mb-1">${data[i].summary}</p>
                 <small>${data[i].time}</small><br>
-                <button type="button" class="btn btn-warning save-btn" data-article=${data[i]._id}>Save Article</button>
+                ${save_btn}
             </div>
         `)
     };
