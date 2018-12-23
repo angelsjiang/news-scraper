@@ -21,8 +21,7 @@ app.use(express.static("public"));
 
 // mongoose connection setup
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
-mongoose.connect(MONGODB_URI);
-// mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 
 // Routes
@@ -88,6 +87,17 @@ app.put("/articles/:id", function(req, res) {
         });
 });
 
+// comments
+app.post("/articles/comment/:id", function(req, res) {
+    db.Article.findOne({ _id: req.params.id})
+        .populate("comment")
+        .then(function(dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err) {
+            res.json(err);
+        });
+});
 
 
 // listening

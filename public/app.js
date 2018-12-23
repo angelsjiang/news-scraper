@@ -3,8 +3,13 @@ $.getJSON("/articles", function(data) {
 });
 
 $(document).on("click", ".list-group-item.list-group-item-action", function() {
-    var title = "Notes for this article: " + $(this).data("title");
+    let articleId = $(".list-group-item.list-group-item-action").data("artid");
+    console.log(articleId);
+    $(".save-comment").attr("data-artId", articleId);
+
+    let title = "Notes for this article: " + $(this).data("title");
     $(".modal-title").text(title);
+
 });
 
 $(document).on("click", ".scrape-news", function(event) {
@@ -72,6 +77,24 @@ $(document).on("click", ".home-btn", function() {
     });
 });
 
+$(document).on("click", ".save-comment", function() {
+    alert("save comment!");
+
+    var thisId = $(".save-comment").data("artid");
+    // console.log(thisId);
+
+    $.ajax({
+        url: "/articles/comment/" + thisId,
+        type: "POST",
+        data: {
+            title: $("#comment-title").val().trim(),
+            body: $("#comment-body").val().trim()
+        }
+    }).then(function(data) {
+        console.log(data);
+    })
+});
+
 
 // re-usable functions
 var getArticles = (data) => {
@@ -95,7 +118,7 @@ var getArticles = (data) => {
 
         $(".list-group").append(`
             <div class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="modal" 
-            data-target="#exampleModalCenter" data-title="${data[i].title}">
+            data-target="#exampleModalCenter" data-title="${data[i].title}" data-artId="${data[i]._id}">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">${data[i].title}</h5>
                 </div>
