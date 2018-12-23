@@ -79,7 +79,7 @@ app.get("/articles/saved", function(req, res) {
 });
 
 app.put("/articles/:id", function(req, res) {
-    db.Article.findOneAndUpdate({ _id: req.params.id }, { saved: true }, { multi: true })
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { $set: { saved: true }} )
         .then(function(result) {
             res.json(result);
         });

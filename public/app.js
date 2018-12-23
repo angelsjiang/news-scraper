@@ -8,7 +8,7 @@ $.getJSON("/articles", function(data) {
                 </div>
                 <p class="mb-1">${data[i].summary}</p>
                 <small>${data[i].time}</small><br>
-                <button type="button" class="btn btn-warning save-btn" data-id=${data[i]._id}>Save Article</button>
+                <button type="button" class="btn btn-warning save-btn" data-article=${data[i]._id}>Save Article</button>
             </div>
         `)
     };
@@ -82,9 +82,9 @@ $(document).on("click", ".saved-news", function(event) {
 $(document).on("click", ".save-btn", function(event) {
     event.preventDefault();
 
-    alert("yoyoyoyo!");
+    // alert("yoyoyoyo!");
 
-    var id = $(".save-btn").data("id");
+    let id = $(this).data("article");
     console.log(id);
 
     $.ajax({
