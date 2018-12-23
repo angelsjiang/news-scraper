@@ -25,6 +25,15 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 
 // Routes
+app.get("/", function(req,res) {
+    db.Article.find({}).then(function(result) {
+        res.json(result);
+    })
+    .catch(function(err) {
+        res.json(err);
+    });
+})
+
 app.get("/scrape", function(req, res) {
     axios.get("https://www.bbc.com/news").then(function(response) {
         var $ = cheerio.load(response.data);
