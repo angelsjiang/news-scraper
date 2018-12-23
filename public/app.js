@@ -3,7 +3,8 @@ $.getJSON("/articles", function(data) {
 });
 
 $(document).on("click", ".list-group-item.list-group-item-action", function() {
-    
+    var title = "Notes for this article: " + $(this).data("title");
+    $(".modal-title").text(title);
 });
 
 $(document).on("click", ".scrape-news", function(event) {
@@ -93,7 +94,8 @@ var getArticles = (data) => {
         }
 
         $(".list-group").append(`
-            <div class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="modal" data-target="#exampleModalCenter">
+            <div class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="modal" 
+            data-target="#exampleModalCenter" data-title="${data[i].title}">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">${data[i].title}</h5>
                 </div>
