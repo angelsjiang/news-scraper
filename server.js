@@ -115,6 +115,6 @@ app.post("/articles/comment/:id", function(req, res) {
 
 
 // listening
-app.listen(PORT, function() {
+app.listen(process.env.PORT || 3000, function() {
     console.log("App running on port " + PORT + "!");
 });

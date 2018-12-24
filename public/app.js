@@ -2,7 +2,7 @@ $.getJSON("/articles", function(data) {
     getArticles(data);
 });
 
-$(document).on("click", ".list-group-item.list-group-item-action", function(event) {
+$(document).on("click", "#title-link", function(event) {
     event.preventDefault();
 
     let articleId = $(this).data("artid");
@@ -143,9 +143,9 @@ var getArticles = (data) => {
 
         $(".list-group").append(`
             <div class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="modal" 
-            data-target="#exampleModalCenter" data-title="${data[i].title}" data-artid="${data[i]._id}">
+            data-target="#exampleModalCenter">
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">${data[i].title}</h5>
+                    <h5 class="mb-1" id="title-link" data-title="${data[i].title}" data-artid="${data[i]._id}">${data[i].title}</h5>
                 </div>
                 <p class="mb-1">${data[i].summary}</p>
                 ${save_btn}
