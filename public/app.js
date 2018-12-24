@@ -9,6 +9,8 @@ $(document).on("click", "#title-link", function(event) {
     console.log(articleId);
     $(".save-comment").attr("data-artid", articleId);
 
+    console.log(this);
+
     let title = "Notes for this article: " + $(this).data("title");
     $(".modal-title").text(title);
 
@@ -142,14 +144,14 @@ var getArticles = (data) => {
         }
 
         $(".list-group").append(`
-            <div class="list-group-item list-group-item-action flex-column align-items-start" data-toggle="modal" 
-            data-target="#exampleModalCenter">
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1" id="title-link" data-title="${data[i].title}" data-artid="${data[i]._id}">${data[i].title}</h5>
+                    <h4 class="mb-1" id="title-link" data-title="${data[i].title}"  data-toggle="modal" 
+                    data-target="#exampleModalCenter" data-artid="${data[i]._id}">${data[i].title}</h4>
                 </div>
                 <p class="mb-1">${data[i].summary}</p>
                 ${save_btn}
-                <a href="${data[i].link}" ><button type="button" class="btn btn-secondary">Link to Article</button></a>
+                <a href="https://www.bbc.com${data[i].link}" ><button type="button" class="btn btn-secondary">Link to Article</button></a>
             </div>
         `)
     };
